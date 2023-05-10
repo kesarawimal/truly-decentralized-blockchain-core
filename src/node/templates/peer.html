@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table class="table">
+    <tr><th>Hostname</th></tr>
+     {% for peer in peers %}
+        <tr><td>{{ peer['hostname'] }}</td></tr>
+    {% endfor %}
+    </table>
+{% endblock %}

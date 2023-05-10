@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table class="table">
+        <tr>
+            <th>Amount</th>
+            <th>Transaction Hash</th>
+        </tr>
+        {% for transaction in utxo['utxos'] %}
+            <tr>
+                <td>{{ transaction['amount'] }}</td>
+                <td><a target="_blank" href="/transactions/{{ transaction['transaction_hash'] }}">{{ transaction['transaction_hash'] }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

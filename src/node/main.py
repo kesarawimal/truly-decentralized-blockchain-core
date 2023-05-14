@@ -35,6 +35,7 @@ def validate_block():
             block.validate()
             block.add()
             block.broadcast()
+            block.sanitize()
         except (NewBlockException, TransactionException) as new_block_exception:
             return f'{new_block_exception}', 400
         return "Transaction success", 200
@@ -53,8 +54,8 @@ def validate_transaction():
             transaction.validate()
             transaction.validate_transaction_hash()
             transaction.validate_funds()
-            transaction.broadcast()
             transaction.store()
+            transaction.broadcast()
     except TransactionException as transaction_exception:
         return f'{transaction_exception}', 400
     if len(get_transactions_from_memory()) == blockchain_base.get_complexity():

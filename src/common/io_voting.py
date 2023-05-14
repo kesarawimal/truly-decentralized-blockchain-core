@@ -22,3 +22,7 @@ def store_voting_in_memory(voting: list):
     text = json.dumps(vote).encode("utf-8")
     with open(FILENAME, "wb") as file_obj:
         file_obj.write(text)
+
+
+def clear_voting_in_memory():
+    open(FILENAME, "w").close()

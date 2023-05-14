@@ -1,5 +1,7 @@
 from src.common.block import Block, BlockHeader
 from src.common.io_blockchain import store_blockchain_in_memory
+from src.common.io_mem_pool import clear_transactions_in_memory
+from src.common.io_voting import clear_voting_in_memory
 from src.common.values import NUMBER_OF_LEADING_ZEROS
 from src.node.transaction_validation.transaction_validation import Transaction
 from src.common.block_reward import BLOCK_REWARD
@@ -58,6 +60,11 @@ class NewBlock:
     def add(self):
         self.new_block.previous_block = self.blockchain
         store_blockchain_in_memory(self.new_block)
+
+    @staticmethod
+    def sanitize():
+        clear_transactions_in_memory()
+        clear_voting_in_memory()
 
     def broadcast(self):
         node_list = self.network.known_nodes

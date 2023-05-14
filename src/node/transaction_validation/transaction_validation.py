@@ -6,8 +6,6 @@ from src.common.block import Block
 from src.common.io_mem_pool import get_transactions_from_memory, store_transactions_in_memory
 from src.common.network import Network
 from src.node.transaction_validation.script import StackScript
-from line_profiler_pycharm import profile
-
 
 class TransactionException(Exception):
     def __init__(self, expression, message):
@@ -59,7 +57,6 @@ class Transaction:
             else:
                 stack_script.push(element)
 
-    @profile
     def validate(self):
         for tx_input in self.inputs:
             transaction_hash = tx_input["transaction_hash"]

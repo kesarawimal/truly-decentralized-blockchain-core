@@ -136,7 +136,7 @@ class Block:
                         if not element.startswith("OP") and element == user:
                             return_dict["total"] = return_dict["total"] + output["amount"]
                             try:
-                                public_key_hex = transaction["inputs"]["unlocking_script"].split(" ")[0]
+                                public_key_hex = transaction["inputs"][0]["unlocking_script"].split(" ")[1]
                                 sender = calculate_hash(calculate_hash(public_key_hex, hash_function="sha256"),
                                                         hash_function="ripemd160")
                             except:

@@ -1,5 +1,7 @@
 import json
 
+from src.common.io_mem_pool import clear_transactions_in_memory
+from src.common.io_voting import clear_voting_in_memory
 from src.common.node import Node
 from src.common.io_blockchain import store_blockchain_dict_in_memory
 from src.common.initialize_default_blockchain import initialize_default_blockchain
@@ -92,6 +94,8 @@ class Network:
         else:
             print("No other node exists. This could be caused by a network issue or because we are the first node out here.")
             initialize_default_blockchain()
+        clear_transactions_in_memory()
+        clear_voting_in_memory()
 
     def return_known_nodes(self) -> []:
         with open(self.KNOWN_NODES_FILE) as f:

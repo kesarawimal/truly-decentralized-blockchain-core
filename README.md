@@ -26,3 +26,17 @@ securing the core value of a blockchain.
   
 >Pang, Y., 2020. A New Consensus Protocol for Blockchain Interoperability Architecture. IEEE
   Access 8, 153719–153730. https://doi.org/10.1109/ACCESS.2020.3017549
+
+### Requirements
+
+#### Python version
+Python 3.8
+
+### Packages
+Install packages with pip:
+`pip install -r packages`
+
+`export PYTHONPATH=.;`
+`export FLASK_APP=src/node/main.py;`
+
+`flask run -p 3000`

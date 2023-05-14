@@ -1,8 +1,8 @@
 import json
 
-from common.node import Node
-from common.io_blockchain import store_blockchain_dict_in_memory
-from common.initialize_default_blockchain import initialize_default_blockchain
+from src.common.node import Node
+from src.common.io_blockchain import store_blockchain_dict_in_memory
+from src.common.initialize_default_blockchain import initialize_default_blockchain
 
 
 class Network:

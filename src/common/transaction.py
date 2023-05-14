@@ -4,9 +4,9 @@ import json
 from Crypto.Hash import SHA256
 from Crypto.Signature import pkcs1_15
 
-from common.transaction_input import TransactionInput
-from common.transaction_output import TransactionOutput
-from common.utils import calculate_hash
+from src.common.transaction_input import TransactionInput
+from src.common.transaction_output import TransactionOutput
+from src.common.utils import calculate_hash
 
 
 class Transaction:

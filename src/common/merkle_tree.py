@@ -1,7 +1,7 @@
 import json
 import math
 
-from common.utils import calculate_hash
+from src.common.utils import calculate_hash
 
 
 class Node:

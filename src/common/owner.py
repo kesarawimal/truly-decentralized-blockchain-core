@@ -2,7 +2,7 @@ import binascii
 
 from Crypto.PublicKey import RSA
 
-from common.utils import calculate_hash
+from src.common.utils import calculate_hash
 
 
 class Owner:

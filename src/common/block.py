@@ -1,14 +1,16 @@
 import json
+from datetime import datetime
 
-from common.utils import calculate_hash
+from src.common.utils import calculate_hash
 
 
 class BlockHeader:
-    def __init__(self, previous_block_hash: str, timestamp: float, nonce: int, merkle_root: str):
+    def __init__(self, previous_block_hash: str, timestamp: float, nonce: int, complexity: int, merkle_root: str):
         self.previous_block_hash = previous_block_hash
         self.merkle_root = merkle_root
         self.timestamp = timestamp
         self.nonce = nonce
+        self.complexity = complexity
         self.hash = self.get_hash()
 
     def __eq__(self, other):
@@ -17,6 +19,7 @@ class BlockHeader:
             assert self.merkle_root == other.merkle_root
             assert self.timestamp == other.timestamp
             assert self.nonce == other.nonce
+            assert self.complexity == other.complexity
             assert self.hash == other.hash
             return True
         except AssertionError:
@@ -26,7 +29,8 @@ class BlockHeader:
         header_data = {"previous_block_hash": self.previous_block_hash,
                        "merkle_root": self.merkle_root,
                        "timestamp": self.timestamp,
-                       "nonce": self.nonce}
+                       "nonce": self.nonce,
+                       "complexity": self.complexity}
         return calculate_hash(json.dumps(header_data))
 
     @property
@@ -36,6 +40,7 @@ class BlockHeader:
             "merkle_root": self.merkle_root,
             "timestamp": self.timestamp,
             "nonce": self.nonce,
+            "complexity": self.complexity,
         }
 
     def __str__(self):
@@ -97,12 +102,24 @@ class Block:
 
     def get_transaction(self, transaction_hash: dict) -> dict:
         current_block = self
-        while current_block.previous_block:
+        while current_block:
             for transaction in current_block.transactions:
                 if transaction["transaction_hash"] == transaction_hash:
                     return transaction
             current_block = current_block.previous_block
         return {}
+
+    def get_complexity(self) -> int:
+        current_block = self
+        complexity = current_block.block_header.complexity
+        if current_block.previous_block == None:
+            return complexity
+        latency = current_block.block_header.timestamp - current_block.previous_block.block_header.timestamp
+        if latency > 90:
+            complexity = complexity / 2
+        elif latency < 30:
+            complexity = complexity * 2
+        return complexity
 
     def get_user_utxos(self, user: str) -> dict:
         return_dict = {
@@ -118,14 +135,46 @@ class Block:
                     for element in locking_script.split(" "):
                         if not element.startswith("OP") and element == user:
                             return_dict["total"] = return_dict["total"] + output["amount"]
+                            try:
+                                public_key_hex = transaction["inputs"]["unlocking_script"].split(" ")[0]
+                                sender = calculate_hash(calculate_hash(public_key_hex, hash_function="sha256"),
+                                                        hash_function="ripemd160")
+                            except:
+                                sender = "Genesis Block"
                             return_dict["utxos"].append(
                                 {
                                     "amount": output["amount"],
+                                    "from": sender,
+                                    "timestamp": datetime.fromtimestamp(current_block.block_header.timestamp),
+                                    "output_index": transaction["inputs"][0]["output_index"],  # todo
                                     "transaction_hash": transaction["transaction_hash"]
                                 }
                             )
             current_block = current_block.previous_block
         return return_dict
+
+    def get_user_sent(self, user: str) -> dict:
+        return_sent = []
+        current_block = self
+        while current_block:
+            for transaction in current_block.transactions:
+                for input in transaction["inputs"]:
+                    unlocking_script = input["unlocking_script"]
+                    to = ""
+                    if unlocking_script.split(" ")[0] == user:
+                        for element in transaction["outputs"][0]["locking_script"].split(" "):
+                            if not element.startswith("OP"):
+                                to = element
+                        return_sent.append(
+                            {
+                                "amount": transaction["outputs"][0]["amount"],
+                                "to": to,
+                                "timestamp": datetime.fromtimestamp(current_block.block_header.timestamp),
+                                "transaction_hash": transaction["transaction_hash"]
+                            }
+                        )
+            current_block = current_block.previous_block
+        return return_sent
 
     def get_transaction_from_utxo(self, utxo_hash: str) -> dict:
         current_block = self

@@ -2,10 +2,11 @@ import copy
 
 import requests
 
-from common.block import Block
-from common.io_mem_pool import get_transactions_from_memory, store_transactions_in_memory
-from common.network import Network
-from node.transaction_validation.script import StackScript
+from src.common.block import Block
+from src.common.io_mem_pool import get_transactions_from_memory, store_transactions_in_memory
+from src.common.network import Network
+from src.node.transaction_validation.script import StackScript
+from line_profiler_pycharm import profile
 
 
 class TransactionException(Exception):
@@ -32,6 +33,8 @@ class Transaction:
     @property
     def is_new(self):
         current_transactions = get_transactions_from_memory()
+        if not current_transactions:
+            return True
         if self.transaction_data in current_transactions:
             return False
         return True
@@ -56,6 +59,7 @@ class Transaction:
             else:
                 stack_script.push(element)
 
+    @profile
     def validate(self):
         for tx_input in self.inputs:
             transaction_hash = tx_input["transaction_hash"]
@@ -63,13 +67,19 @@ class Transaction:
             try:
                 locking_script = self.blockchain.get_locking_script_from_utxo(transaction_hash, output_index)
             except Exception:
-                raise TransactionException(f"{transaction_hash}:{output_index}", "Could not find locking script for utxo")
+                raise TransactionException(f"{transaction_hash}:{output_index}", "Couldn't find the locking script for UTXO")
             try:
                 self.execute_script(tx_input["unlocking_script"], locking_script)
                 self.is_valid = True
             except Exception:
-                print('Transaction script validation failed')
-                raise TransactionException(f"UTXO ({transaction_hash}:{output_index})", "Transaction script validation failed")
+                raise TransactionException(f"{transaction_hash}:{output_index}", "Transaction script validation failed")
+
+    def validate_transaction_hash(self):
+        for tx_input in self.inputs:
+            transaction_hash = tx_input["transaction_hash"]
+            for transaction in get_transactions_from_memory():
+                if transaction['inputs'][0]['transaction_hash'] == transaction_hash:
+                    raise TransactionException(f"{transaction_hash}", "Transaction hash already available in mem pool")
 
     def get_total_amount_in_inputs(self) -> int:
         total_in = 0

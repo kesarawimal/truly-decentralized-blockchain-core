@@ -18,8 +18,8 @@ class Node:
     def post(self, endpoint: str, data: dict) -> requests.Response:
         url = f"{self.base_url}{endpoint}"
         req_return = requests.post(url, json=data)
-        req_return.raise_for_status()
-        return req_return
+        # req_return.raise_for_status()
+        # return req_return
 
     def get(self, endpoint: str, data: dict = None) -> list:
         url = f"{self.base_url}{endpoint}"
@@ -41,8 +41,11 @@ class Node:
     def send_new_block(self, block: dict) -> requests.Response:
         return self.post(endpoint="block", data=block)
 
+    def send_voting(self, voting: dict) -> requests.Response:
+        return self.post(endpoint="voting", data=voting)
+
     def send_transaction(self, transaction_data: dict) -> requests.Response:
-        return self.post("transactions", transaction_data)
+        return self.post(endpoint="transactions", data=transaction_data)
 
     def get_blockchain(self) -> list:
         return self.get(endpoint="block")

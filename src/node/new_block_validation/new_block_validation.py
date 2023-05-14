@@ -1,9 +1,9 @@
-from common.block import Block, BlockHeader
-from common.io_blockchain import store_blockchain_in_memory
-from common.values import NUMBER_OF_LEADING_ZEROS
-from node.transaction_validation.transaction_validation import Transaction
-from common.block_reward import BLOCK_REWARD
-from common.network import Network
+from src.common.block import Block, BlockHeader
+from src.common.io_blockchain import store_blockchain_in_memory
+from src.common.values import NUMBER_OF_LEADING_ZEROS
+from src.node.transaction_validation.transaction_validation import Transaction
+from src.common.block_reward import BLOCK_REWARD
+from src.common.network import Network
 
 
 class NewBlockException(Exception):
@@ -37,8 +37,8 @@ class NewBlock:
         try:
             assert new_block_hash.startswith(number_of_zeros_string)
         except AssertionError:
-            print('Proof of work validation failed')
-            raise NewBlockException("", "Proof of work validation failed")
+            print('Puzzle validation failed')
+            raise NewBlockException("", "Puzzle validation failed")
 
     def _validate_transactions(self):
         input_amount = 0
@@ -53,7 +53,7 @@ class NewBlock:
 
     @staticmethod
     def _validate_funds(input_amount: float, output_amount: float):
-        assert input_amount + BLOCK_REWARD == output_amount
+        assert input_amount == output_amount
 
     def add(self):
         self.new_block.previous_block = self.blockchain

@@ -5,7 +5,7 @@ from Crypto.Hash import SHA256
 from Crypto.PublicKey import RSA
 from Crypto.Signature import pkcs1_15
 
-from common.utils import calculate_hash
+from src.common.utils import calculate_hash
 
 
 class Stack:

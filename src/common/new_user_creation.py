@@ -1,22 +1,24 @@
-import base64
+import binascii
 import os.path
 
-from common.owner import Owner
+from src.common.owner import Owner
 import json
 
 FILENAME = "src/doc/key_pair.json"
+PRIVATE_KEY = "src/doc/private_key.py"
 
 
 def generate_key_pair():
     owner = Owner()
+    with open(PRIVATE_KEY, "w") as file_obj:
+        file_obj.write(f"private_key = {owner.private_key.export_key(format='DER')}")
     dictionary = {
         "public key hash": owner.public_key_hash,
         "public key hex": owner.public_key_hex
-        "private key": base64.b64encode(owner.private_key.export_key(format='DER')).decode('utf-8'),
     }
     with open(FILENAME, "w") as jsonFile:
         json.dump(dictionary, jsonFile)
-    return json.dumps(dictionary, indent=3)
+    return json.dumps(dictionary, indent=2)
 
 
 def get_key_pair_from_memory():

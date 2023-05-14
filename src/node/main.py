@@ -18,7 +18,7 @@ from src.common.leader_election import random_leader_election, get_current_votes
 
 app = Flask(__name__)
 
-MY_HOSTNAME = "127.0.0.1:3000"
+MY_HOSTNAME = "127.0.0.1:5000"
 my_node = Node(MY_HOSTNAME)
 network = Network(my_node)
 network.join_network()
@@ -188,7 +188,7 @@ def index():
 
 def main():
     global network
-    my_node = Node(request.host_url)
+    my_node = Node(request.host)
     network = Network(my_node)
     network.join_network()
     app.config['TEMPLATES_AUTO_RELOAD'] = True

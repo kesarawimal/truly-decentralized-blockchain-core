@@ -7,6 +7,7 @@ from src.common.io_mem_pool import get_transactions_from_memory, store_transacti
 from src.common.network import Network
 from src.node.transaction_validation.script import StackScript
 
+
 class TransactionException(Exception):
     def __init__(self, expression, message):
         self.expression = expression
@@ -64,7 +65,8 @@ class Transaction:
             try:
                 locking_script = self.blockchain.get_locking_script_from_utxo(transaction_hash, output_index)
             except Exception:
-                raise TransactionException(f"{transaction_hash}:{output_index}", "Couldn't find the locking script for UTXO")
+                raise TransactionException(f"{transaction_hash}:{output_index}",
+                                           "Couldn't find the locking script for UTXO")
             try:
                 self.execute_script(tx_input["unlocking_script"], locking_script)
                 self.is_valid = True

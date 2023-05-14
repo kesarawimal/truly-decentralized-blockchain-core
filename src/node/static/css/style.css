@@ -1,6 +1,35 @@
+body {
+    font-family: 'Inter', sans-serif !important;
+    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 h1 {
     border: 2px #eee solid;
-    color: brown;
+    color: #965500;
     text-align: center;
     padding: 10px;
+}
+
+.copy {
+    cursor: pointer;
+}
+
+footer {
+  margin-top: auto;
+}
+
+h3 {
+    border: 2px #eee solid;
+    text-align: center;
+    padding: 10px;
+}
+
+.bg-light {
+    background-color: #f2f4f6 !important;
+}
+
+.navbar {
+
 }

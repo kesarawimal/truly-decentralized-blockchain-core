@@ -1,5 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div>{{ blockchain }}</div>
+
+    <div class="container" style="margin-top: 30px">
+        <div class="row" style="margin-bottom: 20px">
+            <div class="col-md-8">
+                <h4>Current Blockchain</h4>
+            </div>
+            <div class="col-md-4" style="text-align: right">
+                <a target="_blank" href="/blockchain/raw" class="btn btn-warning">Raw Blockchain</a>
+            </div>
+        </div>
+        <table class="table" style="text-align: center">
+            <tr>
+                <th>Transaction Count</th>
+                <th>Timestamp</th>
+                <th>Complexity</th>
+                <th>Previous Block Hash</th>
+            </tr>
+            {% for block in blockchain %}
+                <tr>
+                    <td>{{ block['transactions'] |count }}</td>
+                    <td>{{ block['header']['timestamp'] }}</td>
+                    <td>{{ block['header']['complexity'] }}</td>
+                    <td>{{ block['header']['previous_block_hash'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}

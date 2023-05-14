@@ -2,7 +2,8 @@
 
 {% block content %}
     <h1>Balance: {{ utxos['total'] }} Coins</h1>
-    <h3>Wallet Address: <span id="address">{{ key }}</span> <a class="copy" onclick="copyAddress('{{ key }}')"><i class="fa fa-copy"></i></a></h3>
+    <h3>Wallet Address: <span id="address">{{ key }}</span> <a class="copy" onclick="copyAddress('{{ key }}')"><i
+            class="fa fa-copy"></i></a></h3>
     <hr>
     {% if message %}
         <div class="alert alert-success" style="text-align: center;" role="alert">
@@ -15,22 +16,23 @@
         </div>
     {% endif %}
     <div class="row justify-content-md-center">
-    <div class="col-md-6">
-    <h4>Send a new Transaction</h4>
-    <form method="post">
-        <div class="form-group">
-            <label for="address">Wallet Address</label>
-            <input maxlength="40" minlength="40" type="text" name="address" class="form-control form-control-lg"/>
-        </div>
+        <div class="col-md-6">
+            <h4>Send a new Transaction</h4>
+            <form method="post">
+                <div class="form-group">
+                    <label for="address">Wallet Address</label>
+                    <input maxlength="40" minlength="40" type="text" name="address"
+                           class="form-control form-control-lg"/>
+                </div>
 
-        <div class="form-group">
-            <label for="amount">Amount</label>
-            <input type="number" min="0" max="50" name="amount" class="form-control form-control-lg"/>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" min="0" max="50" name="amount" class="form-control form-control-lg"/>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-warning btn-lg btn-block">Send Transaction</button>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-lg btn-block">Send Transaction</button>
-        </div>
-    </form>
-    </div>
     </div>
 {% endblock %}

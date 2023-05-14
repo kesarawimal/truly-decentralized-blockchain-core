@@ -1,10 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <table class="table">
-    <tr><th>Hostname</th></tr>
-     {% for peer in peers %}
-        <tr><td>{{ peer['hostname'] }}</td></tr>
-    {% endfor %}
-    </table>
+    <div class="row justify-content-md-center" style="margin-top: 30px">
+        <div class="col-md-6">
+            <h4>Connect with a new Node</h4>
+            <form method="post">
+                <div class="form-group">
+                    <label for="address">Hostname</label>
+                    <input maxlength="40" type="text" name="hostname" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-warning btn-block">Connecting Node</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center" style="margin-top: 30px">
+        <div class="col-md-6">
+            <h4>Connected Nodes</h4>
+            <table class="table" style="text-align: center">
+                <tr>
+                    <th>Hostname</th>
+                </tr>
+                {% for peer in peers %}
+                    <tr>
+                        <td>{{ peer['hostname'] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
 {% endblock %}

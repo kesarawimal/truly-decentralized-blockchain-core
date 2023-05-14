@@ -1,16 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <table class="table">
-        <tr>
-            <th>Amount</th>
-            <th>Transaction Hash</th>
-        </tr>
-        {% for transaction in utxo['utxos'] %}
+    <div class="container" style="margin-top: 30px">
+        <h4>Transaction Received</h4>
+        <table class="table" style="text-align: center">
             <tr>
-                <td>{{ transaction['amount'] }}</td>
-                <td><a target="_blank" href="/transactions/{{ transaction['transaction_hash'] }}">{{ transaction['transaction_hash'] }}</a></td>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>From</th>
+                <th>View</th>
             </tr>
-        {% endfor %}
-    </table>
+            {% for transaction in utxo['utxos'] %}
+                <tr>
+                    <td>+ {{ transaction['amount'] }}</td>
+                    <td>{{ transaction['timestamp'] }}</td>
+                    <td>{{ transaction['from'] }}</td>
+                    <td><a style="color: black" target="_blank"
+                           href="/transactions/{{ transaction['transaction_hash'] }}"><i
+                            class="fa fa-eye fa-lg"></i></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="container" style="margin-top: 30px">
+        <h4>Transaction Sent</h4>
+        <table class="table" style="text-align: center">
+            <tr>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>To</th>
+                <th>View</th>
+            </tr>
+            {% for transaction in utxo['utxos'] %}
+                <tr>
+                    <td>- {{ transaction['amount'] }}</td>
+                    <td>{{ transaction['timestamp'] }}</td>
+                    <td>{{ transaction['from'] }}</td>
+                    <td><a style="color: black" target="_blank"
+                           href="/transactions/{{ transaction['transaction_hash'] }}"><i
+                            class="fa fa-eye fa-lg"></i></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}

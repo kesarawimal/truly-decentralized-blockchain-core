@@ -34,7 +34,7 @@ Python 3.8
 
 ### Installation
 Install packages with pip:
-`pip install -r packages`
+`pip install -r requirements.txt`
 
 ### Set Environment Variables
 `export PYTHONPATH=.;`<br>

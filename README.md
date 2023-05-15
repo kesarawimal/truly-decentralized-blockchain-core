@@ -37,8 +37,8 @@ Install packages with pip:
 `pip install -r requirements.txt`
 
 ### Set Environment Variables
-`export PYTHONPATH=.;`<br>
-`export FLASK_APP=src/node/main.py;`<br>
+`export PYTHONPATH=.`<br>
+`export FLASK_APP=src/node/main.py`<br>
 `export FLASk_ENV=development`<br>
 
 ### Start Server

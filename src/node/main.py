@@ -38,7 +38,7 @@ def validate_block():
             block.sanitize()
         except (NewBlockException, TransactionException) as new_block_exception:
             return f'{new_block_exception}', 400
-        return "Transaction success", 200
+        return "Block success", 200
     else:
         return jsonify(blockchain_base.to_dict)
 

@@ -32,11 +32,16 @@ securing the core value of a blockchain.
 #### Python version
 Python 3.8
 
-### Packages
+### Installation
 Install packages with pip:
-`pip install -r packages`
+`pip install -r requirements.txt`
 
-`export PYTHONPATH=.;`
-`export FLASK_APP=src/node/main.py;`
+### Set Environment Variables
+`export PYTHONPATH=.`<br>
+`export FLASK_APP=src/node/main.py`<br>
+`export FLASk_ENV=development`<br>
 
-`flask run -p 3000`
+### Start Server
+`flask run`<br>
+Or run this command<br>
+`python -m flask run`

@@ -146,8 +146,7 @@ def get_transactions():
     key = json.loads(key_pair)
     blockchain_base = get_blockchain_from_memory()
     utxo = blockchain_base.get_user_utxos(key['public key hash'])
-    sent = blockchain_base.get_user_sent(key['public key hex'])
-    return render_template('transactions.html', utxo=utxo, sent=sent)
+    return render_template('transactions.html', utxo=utxo)
 
 
 @app.route("/get_block", methods=['GET'])

@@ -31,7 +31,7 @@
                 <th>To</th>
                 <th>View</th>
             </tr>
-            {% for transaction in sent %}
+            {% for transaction in utxo['utxos'] %}
                 <tr>
                     <td>- {{ transaction['amount'] }}</td>
                     <td>{{ transaction['timestamp'] }}</td>
